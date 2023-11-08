@@ -154,7 +154,8 @@ const editMovie = (movieIndex) => {
   form.inTheaters = movie.inTheaters;
   form.genres = movie.genres;
   form.rating = movie.rating;
-  form.index = movieIndex;
+  form.index =  movieIndex;
+  form.edit = movieIndex || movieIndex === 0;
   showForm();
 };
 </script>
@@ -250,7 +251,7 @@ const editMovie = (movieIndex) => {
               Cancel
             </button>
             <button
-              v-if="form.index"
+              v-if="form.edit"
               type="button"
               class="button-primary"
               @click="updateMovie(form.index)"
