@@ -104,21 +104,16 @@ const removeMovie = (movieIndex) => {
 };
 
 function cleanUpForm() {
-  form.name = null;
-  form.description = null;
-  form.image = null;
-  form.genres = [];
-  form.inTheaters = false;
-  form.index = null;
+  Object.keys(form).forEach((key) => {
+    form[key] = null;
+  });
   clearErrors();
 }
 
 const clearErrors = () => {
-  errors.name = null;
-  errors.description = null;
-  errors.image = null;
-  errors.genres = null;
-  errors.inTheaters = null;
+  Object.keys(errors).forEach((key) => {
+    errors[key] = null;
+  });
 };
 
 const showMovieForm = ref(false);
@@ -147,16 +142,13 @@ const roundToTwoDecimalPlaces = (number) => {
 };
 
 const editMovie = (movieIndex) => {
-  const movie = movies.value[movieIndex];
-  form.name = movie.name;
-  form.description = movie.description;
-  form.image = movie.image;
-  form.inTheaters = movie.inTheaters;
-  form.genres = movie.genres;
-  form.rating = movie.rating;
-  form.index =  movieIndex;
-  form.edit = movieIndex || movieIndex === 0;
-  showForm();
+  if (movieIndex >= 0 && movieIndex < movies.value.length) {
+    const movie = movies.value[movieIndex];
+    const updatedForm = { ...movie, index: movieIndex, edit: true };
+    showForm();
+
+    Object.assign(form, updatedForm);
+  }
 };
 </script>
 
@@ -359,10 +351,16 @@ const editMovie = (movieIndex) => {
               </button>
             </div>
             <div class="movie-item-icon-wrapper">
-              <PencilIcon @click="editMovie(movieIndex)" />
+              <PencilIcon
+                class="movie-item-icons"
+                @click="editMovie(movieIndex)"
+              />
             </div>
             <div class="movie-item-icon-wrapper">
-              <TrashIcon @click="removeMovie(movieIndex)" />
+              <TrashIcon
+                class="movie-item-icons"
+                @click="removeMovie(movieIndex)"
+              />
             </div>
           </div>
         </div>
