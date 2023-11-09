@@ -127,14 +127,12 @@ const showForm = () => {
   showMovieForm.value = true;
 };
 
-const avargeRating = computed({
-  get() {
-    if (movies.value.length) {
-      const total = movies.value.reduce((sum, movie) => sum + movie.rating, 0);
-      return roundToTwoDecimalPlaces(total / movies.value.length);
-    }
-    return 0;
-  },
+const avargeRating = computed(() => {
+  if (movies.value.length) {
+    const total = movies.value.reduce((sum, movie) => sum + movie.rating, 0);
+    return roundToTwoDecimalPlaces(total / movies.value.length);
+  }
+  return 0;
 });
 
 const roundToTwoDecimalPlaces = (number) => {
