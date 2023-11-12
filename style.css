@@ -12,21 +12,21 @@
 }
 
 .modal-wrapper-inner {
-    @apply shrink-0 w-full max-w-2xl rounded-md flex flex-col overflow-hidden shadow-2xl bg-white dark:bg-gray-800 p-4 space-y-4 dark:text-white;
+    @apply shrink-0 w-full max-w-2xl rounded-md flex flex-col overflow-hidden shadow-2xl text-white bg-gray-800 dark:bg-gray-800 p-4 space-y-4 dark:text-white;
 }
 
 .movie-form-input-wrapper {
-    @apply flex flex-col items-start justify-start w-full;
+    @apply flex flex-col items-start justify-start w-full ;
 }
 
 
 
 .movie-form-input {
-    @apply w-full dark:bg-gray-900 rounded-md;
+    @apply w-full bg-gray-900 dark:bg-gray-900 rounded-md;
 }
 
 .movie-form-textarea {
-    @apply w-full dark:bg-gray-900 h-24 rounded-md;
+    @apply w-full bg-gray-900 dark:bg-gray-900 h-24 rounded-md;
 }
 
 .movie-form-checkbox {

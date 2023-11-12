@@ -1,13 +1,16 @@
 <script setup>
+import { computed } from "vue";
 import { StarIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 
-defineProps({
+const props = defineProps({
   movie: {
     type: Array,
     required: true,
   },
 });
-defineEmits(["remove", "edit"]);
+defineEmits(["remove", "edit", "update:rating"]);
+
+const notRated = computed(() => !props.movie.rating);
 </script>
 
 <template>
@@ -17,11 +20,11 @@ defineEmits(["remove", "edit"]);
         <StarIcon
           id="rating"
           class="movie-item-star-rating-icon"
-          :class="[movie.rating ? 'text-yellow-500' : 'text-gray-500']"
+          :class="[notRated ? 'text-gray-500' : 'text-yellow-500']"
         />
         <div class="movie-item-star-content-wrapper">
           <span
-            v-if="movie.rating"
+            v-if="!notRated"
             id="rating-stars"
             class="movie-item-star-content-rating-rated"
           >
@@ -64,7 +67,7 @@ defineEmits(["remove", "edit"]);
               star <= movie.rating ? 'text-yellow-500' : 'text-gray-500',
             ]"
             :disabled="star === movie.rating"
-            @click="updateRating(movieIndex, star)"
+            @click="$emit('update:rating', { id: movie.id, rating: star })"
           >
             <StarIcon class="movie-item-star-icon" />
           </button>
