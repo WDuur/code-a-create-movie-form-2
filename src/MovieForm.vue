@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { reactive } from "vue";
 
 const props = defineProps({
   modelValue: {
@@ -88,8 +88,6 @@ const cancel = () => {
   emit("cancel");
   clearErrors();
 };
-
-const notRated = computed(() => !props.movie.rating);
 </script>
 
 <template>
