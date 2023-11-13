@@ -1,10 +1,17 @@
 <script setup>
-import { reactive, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import MovieItem from "@/MovieItem.vue";
 import MovieForm from "@/MovieForm.vue";
 import { items } from "./movies.json";
 
+const showMovieForm = ref(false);
 const movies = ref(items);
+const currentMovie = ref();
+
+const editMovie = (id) => {
+  currentMovie.value = movies.value.find((movie) => movie.id === id);
+  showForm();
+};
 
 const updateRating = ({ id, rating }) => {
   const movie = movies.value.find((movie) => movie.id === id);
@@ -19,62 +26,37 @@ const removeRating = () => {
   });
 };
 
-const form = reactive({
-  name: null,
-  description: null,
-  image: null,
-  inTheaters: false,
-  genres: [],
-});
-
-const submit = () => {
-  if (form.id) {
-    updateMovie(form.id);
+const submit = (data) => {
+  const isExistingMovie = !!movies.value.find((movie) => movie.id === data.id);
+  if (isExistingMovie) {
+    updateMovie(data);
   } else {
-    addMovie();
+    addMovie(data);
   }
 };
-const addMovie = () => {
-  const movie = {
-    id: Number(Date.now()),
-    name: form.name,
-    description: form.description,
-    image: form.image,
-    genres: form.genres,
-    inTheaters: form.inTheaters,
-    rating: null,
-  };
-  movies.value.push(movie);
+const addMovie = (data) => {
+  movies.value.push(data);
   hideForm();
 };
 
-const updateMovie = (id) => {
-  const movie = movies.value.find((movie) => movie.id === id);
-  if (movie.id === id) {
-    movie.name = form.name;
-    movie.description = form.description;
-    movie.image = form.image;
-    movie.genres = form.genres;
-    movie.inTheaters = form.inTheaters;
-    hideForm();
-  }
+const updateMovie = (data) => {
+  console.log(data);
+  movies.value = movies.value.map((movie) => {
+    if (movie.id === data.id) {
+      data.rating = movie.rating;
+      return data;
+    }
+    return movie;
+  });
+  hideForm();
 };
 
 const removeMovie = (id) => {
   movies.value = movies.value.filter((movie) => movie.id !== id);
 };
-
-function cleanUpForm() {
-  Object.keys(form).forEach((key) => {
-    form[key] = null;
-  });
-}
-
-const showMovieForm = ref(false);
-
 const hideForm = () => {
   showMovieForm.value = false;
-  cleanUpForm();
+  currentMovie.value = null;
 };
 
 const showForm = () => {
@@ -92,18 +74,6 @@ const avargeRating = computed(() => {
 const roundToTwoDecimalPlaces = (number) => {
   return parseFloat(number.toFixed(2));
 };
-
-const editMovie = (id) => {
-  const movieIndex = movies.value.findIndex((movie) => movie.id === id);
-
-  if (movieIndex !== -1) {
-    const movie = movies.value[movieIndex];
-    const updatedForm = { ...movie };
-    showForm();
-
-    Object.assign(form, updatedForm);
-  }
-};
 </script>
 
 <template>
@@ -112,7 +82,7 @@ const editMovie = (id) => {
     <MovieForm
       v-if="showMovieForm"
       class="modal-wrapper text-black"
-      v-model="form"
+      v-model="currentMovie"
       @update:modelValue="submit"
       @cancel="hideForm"
     />
@@ -146,7 +116,6 @@ const editMovie = (id) => {
         </button>
       </div>
     </div>
-
     <!-- movie list -->
     <div class="movie-list">
       <MovieItem

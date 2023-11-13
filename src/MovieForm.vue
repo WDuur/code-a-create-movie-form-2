@@ -10,6 +10,16 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue", "cancel"]);
 
+const form = reactive({
+  id: props.modelValue?.id,
+  name: props.modelValue?.name,
+  description: props.modelValue?.description,
+  image: props.modelValue?.image,
+  inTheaters: props.modelValue?.inTheaters || false,
+  genres: props.modelValue?.genres || [],
+  rating: props.modelValue?.rating || null,
+});
+
 const errors = reactive({
   name: null,
   description: null,
@@ -48,7 +58,7 @@ const validate = () => {
   for (const [field, rule] of Object.entries(validations)) {
     const validation = validationRules(rule);
     if (validation) {
-      if (validation.test(props.modelValue[field] || "")) {
+      if (validation.test(form[field] || "")) {
         errors[field] = `${field} is ${rule}`;
         valid = false;
       }
@@ -60,12 +70,21 @@ const validate = () => {
 
 const submitMovie = () => {
   if (validate()) {
-    emit("update:modelValue");
+    const data = {
+      id: form.id || Number(Date.now()),
+      name: form.name,
+      description: form.description,
+      image: form.image,
+      genres: form.genres,
+      inTheaters: form.inTheaters,
+      rating: form.rating,
+    };
+    emit("update:modelValue", data);
     clearErrors();
   }
 };
 
-const cancelForm = () => {
+const cancel = () => {
   emit("cancel");
   clearErrors();
 };
@@ -83,7 +102,7 @@ const notRated = computed(() => !props.movie.rating);
             type="text"
             name="name"
             id="name"
-            v-model="modelValue.name"
+            v-model="form.name"
             class="movie-form-input"
           />
           <span class="movie-form-error">{{ errors.name }}</span>
@@ -94,7 +113,7 @@ const notRated = computed(() => !props.movie.rating);
             type="text"
             name="description"
             id="description"
-            v-model="modelValue.description"
+            v-model="form.description"
             class="movie-form-textarea"
           />
           <span class="movie-form-error">{{ errors.description }}</span>
@@ -105,7 +124,7 @@ const notRated = computed(() => !props.movie.rating);
             type="text"
             name="image"
             id="image"
-            v-model="modelValue.image"
+            v-model="form.image"
             class="movie-form-input"
           />
           <span class="movie-form-error">{{ errors.image }}</span>
@@ -115,7 +134,7 @@ const notRated = computed(() => !props.movie.rating);
           <select
             name="genre"
             id="genre"
-            v-model="modelValue.genres"
+            v-model="form.genres"
             class="movie-form-input"
             multiple
           >
@@ -136,7 +155,7 @@ const notRated = computed(() => !props.movie.rating);
             <input
               type="checkbox"
               id="inTheaters"
-              v-model="modelValue.inTheaters"
+              v-model="form.inTheaters"
               :true-value="true"
               :false-value="false"
               class="movie-form-checkbox"
@@ -151,7 +170,7 @@ const notRated = computed(() => !props.movie.rating);
           <button type="button" class="button" @click="cancel()">Cancel</button>
 
           <button type="submit" class="button-primary">
-            {{ modelValue.id ? "Update" : "Create" }}
+            {{ form.id ? "Update" : "Create" }}
           </button>
         </div>
       </form>
