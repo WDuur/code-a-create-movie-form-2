@@ -69,6 +69,7 @@ const validate = () => {
 };
 
 const submitMovie = () => {
+  console.log("submitMovie");
   if (validate()) {
     const data = {
       id: form.id || Number(Date.now()),
@@ -91,87 +92,83 @@ const cancel = () => {
 </script>
 
 <template>
-  <div class="modal-wrapper text-black">
-    <div class="modal-wrapper-inner">
-      <form @submit.prevent="submitMovie">
-        <div class="movie-form-input-wrapper">
-          <label for="name">Name </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            v-model="form.name"
-            class="movie-form-input"
-          />
-          <span class="movie-form-error">{{ errors.name }}</span>
-        </div>
-        <div class="movie-form-input-wrapper">
-          <label for="description">Description</label>
-          <textarea
-            type="text"
-            name="description"
-            id="description"
-            v-model="form.description"
-            class="movie-form-textarea"
-          />
-          <span class="movie-form-error">{{ errors.description }}</span>
-        </div>
-        <div class="movie-form-input-wrapper">
-          <label for="image">Image</label>
-          <input
-            type="text"
-            name="image"
-            id="image"
-            v-model="form.image"
-            class="movie-form-input"
-          />
-          <span class="movie-form-error">{{ errors.image }}</span>
-        </div>
-        <div class="movie-form-input-wrapper">
-          <label for="genre">Genres</label>
-          <select
-            name="genre"
-            id="genre"
-            v-model="form.genres"
-            class="movie-form-input"
-            multiple
-          >
-            <option
-              v-for="option in genres"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.text }}
-            </option>
-          </select>
-          <span class="movie-form-error">
-            {{ errors.genres }}
-          </span>
-        </div>
-        <div class="movie-form-input-wrapper">
-          <label for="inTheaters" class="movie-form-checkbox-label">
-            <input
-              type="checkbox"
-              id="inTheaters"
-              v-model="form.inTheaters"
-              :true-value="true"
-              :false-value="false"
-              class="movie-form-checkbox"
-            />
-            <span>In theaters</span>
-          </label>
-          <span class="movie-form-error">
-            {{ errors.inTheaters }}
-          </span>
-        </div>
-        <div class="movie-form-actions-wrapper">
-          <button type="button" class="button" @click="cancel()">Cancel</button>
-
-          <button type="submit" class="button-primary">
-            {{ form.id ? "Update" : "Create" }}
-          </button>
-        </div>
-      </form>
+  <form @submit.prevent="submitMovie">
+    <div class="movie-form-input-wrapper">
+      <label for="name">Name </label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        v-model="form.name"
+        class="movie-form-input"
+      />
+      <span class="movie-form-error">{{ errors.name }}</span>
     </div>
-  </div>
+    <div class="movie-form-input-wrapper">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        name="description"
+        id="description"
+        v-model="form.description"
+        class="movie-form-textarea"
+      />
+      <span class="movie-form-error">{{ errors.description }}</span>
+    </div>
+    <div class="movie-form-input-wrapper">
+      <label for="image">Image</label>
+      <input
+        type="text"
+        name="image"
+        id="image"
+        v-model="form.image"
+        class="movie-form-input"
+      />
+      <span class="movie-form-error">{{ errors.image }}</span>
+    </div>
+    <div class="movie-form-input-wrapper">
+      <label for="genre">Genres</label>
+      <select
+        name="genre"
+        id="genre"
+        v-model="form.genres"
+        class="movie-form-input"
+        multiple
+      >
+        <option
+          v-for="option in genres"
+          :key="option.value"
+          :value="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
+      <span class="movie-form-error">
+        {{ errors.genres }}
+      </span>
+    </div>
+    <div class="movie-form-input-wrapper">
+      <label for="inTheaters" class="movie-form-checkbox-label">
+        <input
+          type="checkbox"
+          id="inTheaters"
+          v-model="form.inTheaters"
+          :true-value="true"
+          :false-value="false"
+          class="movie-form-checkbox"
+        />
+        <span>In theaters</span>
+      </label>
+      <span class="movie-form-error">
+        {{ errors.inTheaters }}
+      </span>
+    </div>
+    <div class="movie-form-actions-wrapper">
+      <button type="button" class="button" @click="cancel()">Cancel</button>
+
+      <button type="submit" class="button-primary">
+        {{ form.id ? "Update" : "Create" }}
+      </button>
+    </div>
+  </form>
 </template>

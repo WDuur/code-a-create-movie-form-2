@@ -1,8 +1,10 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import MovieItem from "@/MovieItem.vue";
-import MovieForm from "@/MovieForm.vue";
 import { items } from "./movies.json";
+
+const AppModal = defineAsyncComponent(() => import("./AppModal.vue"));
+const MovieForm = defineAsyncComponent(() => import("./MovieForm.vue"));
 
 const showMovieForm = ref(false);
 const movies = ref(items);
@@ -26,7 +28,7 @@ const removeRating = () => {
   });
 };
 
-const submit = (data) => {
+const saveMovie = (data) => {
   const isExistingMovie = !!movies.value.find((movie) => movie.id === data.id);
   if (isExistingMovie) {
     updateMovie(data);
@@ -35,6 +37,7 @@ const submit = (data) => {
   }
 };
 const addMovie = (data) => {
+  console.log(data);
   movies.value.push(data);
   hideForm();
 };
@@ -79,14 +82,13 @@ const roundToTwoDecimalPlaces = (number) => {
 <template>
   <div class="app">
     <!-- Movie Form -->
-    <MovieForm
-      v-if="showMovieForm"
-      class="modal-wrapper text-black"
-      v-model="currentMovie"
-      @update:modelValue="submit"
-      @cancel="hideForm"
-    />
-
+    <AppModal v-if="showMovieForm" @close="hideForm" :title="'Add movie'">
+      <MovieForm
+        @update:modelValue="saveMovie"
+        :modelValue="currentMovie"
+        @cancel="hideForm"
+      />
+    </AppModal>
     <div class="movie-actions-list-wrapper">
       <div class="movie-actions-list-summary">
         Total Movies: {{ movies.length }} / Avarage Rating {{ avargeRating }}
