@@ -82,13 +82,19 @@ const roundToTwoDecimalPlaces = (number) => {
 <template>
   <div class="app">
     <!-- Movie Form -->
-    <AppModal v-if="showMovieForm" @close="hideForm" :title="'Add movie'">
+
+    <AppModal
+      @close="hideForm"
+      :show="showMovieForm"
+      :title="currentMovie?.id ? 'Edit movie' : 'Add movie'"
+    >
       <MovieForm
         @update:modelValue="saveMovie"
         :modelValue="currentMovie"
         @cancel="hideForm"
       />
     </AppModal>
+
     <div class="movie-actions-list-wrapper">
       <div class="movie-actions-list-summary">
         Total Movies: {{ movies.length }} / Avarage Rating {{ avargeRating }}
@@ -118,6 +124,7 @@ const roundToTwoDecimalPlaces = (number) => {
         </button>
       </div>
     </div>
+
     <!-- movie list -->
     <div class="movie-list">
       <MovieItem

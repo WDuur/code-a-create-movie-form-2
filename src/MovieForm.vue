@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted, ref } from "vue";
 
 const props = defineProps({
   modelValue: {
@@ -89,6 +89,8 @@ const cancel = () => {
   emit("cancel");
   clearErrors();
 };
+const inputname = ref();
+onMounted(() => inputname.value.focus());
 </script>
 
 <template>
@@ -99,6 +101,7 @@ const cancel = () => {
         type="text"
         name="name"
         id="name"
+        ref="inputname"
         v-model="form.name"
         class="movie-form-input"
       />
@@ -110,6 +113,7 @@ const cancel = () => {
         type="text"
         name="description"
         id="description"
+        ref="description"
         v-model="form.description"
         class="movie-form-textarea"
       />
@@ -121,6 +125,7 @@ const cancel = () => {
         type="text"
         name="image"
         id="image"
+        ref="image"
         v-model="form.image"
         class="movie-form-input"
       />
@@ -131,6 +136,7 @@ const cancel = () => {
       <select
         name="genre"
         id="genre"
+        ref="genre"
         v-model="form.genres"
         class="movie-form-input"
         multiple
@@ -152,6 +158,7 @@ const cancel = () => {
         <input
           type="checkbox"
           id="inTheaters"
+          ref="inTheaters"
           v-model="form.inTheaters"
           :true-value="true"
           :false-value="false"

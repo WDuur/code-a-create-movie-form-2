@@ -22,6 +22,11 @@
   resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.18.19.tgz"
   integrity sha512-D0IiYjpZRXxGZLQfsydeAD7ZWqdGyFLBj5f2UshJpy09WPs3qizDCsEr8zyzcym6Woj/UI9ZzMIXwvoXVtyt0A==
 
+"@esbuild/win32-x64@0.18.19":
+  version "0.18.19"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.18.19.tgz"
+  integrity sha512-z69jhyG20Gq4QL5JKPLqUT+eREuqnDAFItLbza4JCmpvUnIlY73YNjd5djlO7kBiiZnvTnJuAbOjIoZIOa1GjA==
+
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
   resolved "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz"
