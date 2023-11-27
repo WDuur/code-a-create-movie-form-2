@@ -153,6 +153,9 @@
 .movie-item-icon-wrapper {
     @apply  hidden rounded-md h-8 w-8 bg-gray-200  hover:bg-gray-300 p-2 ml-1 rounded-full cursor-pointer;
 }
+.movie-item-icon-wrapper.danger{
+    @apply  hidden rounded-md h-8 w-8 bg-gray-200  hover:bg-red-500 p-2 ml-1 rounded-full cursor-pointer;
+}
 .movie-item:hover .movie-item-icon-wrapper {
     @apply block;
 }
